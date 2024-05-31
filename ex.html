@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Subscription</title>
+    <style>
+        .error {
+            color: red;
+            display: none;
+        }
+        .hide {
+            display: none;
+        }
+        .card-2 {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="righ">
+            <h1> Stay updated!</h1>
+            <p>Join 60,000+ product managers receiving monthly updates on:</p>
+            <ul>
+                <li>Product discovery and building what matters</li>
+                <li>Measuring to ensure updates are a success</li>
+                <li>And much more!</li>
+            </ul>
+
+            <form id="subscriptionForm">
+                <label for="email">Email address</label><br>
+                <input type="text" id="email" placeholder="email@company.com">
+                <span id="error" class="error">Please enter a valid email address</span><br>
+                <button type="submit">Subscribe to monthly newsletter</button>
+            </form>
+        </div>
+        <div class="left">
+            <img src="assets/images/illustration-sign-up-desktop.svg" alt="#">
+        </div>
+    </div>
+
+    <div class="card-2 hide" id="successMessage">
+        <img src="assets/images/icon-success.svg" alt="" class="icon-card-2">
+        <h1> Thanks for subscribing!</h1>
+        <p>A confirmation email has been sent to <span id="emailPlaceholder"></span>. 
+        Please open it and click the button inside to confirm your subscription.</p>
+        <button id="dismissMessage">Dismiss message</button>
+    </div>
+
+    <script>
+        document.getElementById('subscriptionForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const emailInput = document.getElementById('email');
+            const email = emailInput.value;
+            const error = document.getElementById('error');
+            const successMessage = document.getElementById('successMessage');
+            const emailPlaceholder = document.getElementById('emailPlaceholder');
+
+            // Simple email validation regex
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailRegex.test(email)) {
+                error.style.display = 'block';
+                emailInput.style.border = '1px solid red';
+            } else {
+                error.style.display = 'none';
+                emailInput.style.border = '1px solid green';
+
+                // Show success message and hide the form
+                successMessage.classList.remove('hide');
+                document.querySelector('.card').style.display = 'none';
+                emailPlaceholder.textContent = email;
+            }
+        });
+
+        document.getElementById('dismissMessage').addEventListener('click', function() {
+            const successMessage = document.getElementById('successMessage');
+            successMessage.classList.add('hide');
+            document.querySelector('.card').style.display = 'block';
+            document.getElementById('email').value = '';
+        });
+    </script>
+</body>
+</html>
